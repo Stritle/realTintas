@@ -1,16 +1,16 @@
-import React, { useContext } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { Store } from '../store';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import MessageBox from '../components/MessageBox';
-import ListGroup from 'react-bootstrap/ListGroup';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-import { Link, useNavigate } from 'react-router-dom';
-import { IoAddCircleOutline } from 'react-icons/io5';
-import { IoIosRemoveCircleOutline, IoMdTrash } from 'react-icons/io';
-import axios from 'axios';
+import React, { useContext } from "react";
+import { Helmet } from "react-helmet-async";
+import { Store } from "../store";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import MessageBox from "../components/MessageBox";
+import ListGroup from "react-bootstrap/ListGroup";
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+import { Link, useNavigate } from "react-router-dom";
+import { IoAddCircleOutline } from "react-icons/io5";
+import { IoIosRemoveCircleOutline, IoMdTrash } from "react-icons/io";
+import axios from "axios";
 
 const CartScreen = () => {
   const navigate = useNavigate();
@@ -23,25 +23,25 @@ const CartScreen = () => {
   const updateCartHandler = async (item, quantity) => {
     const { data } = await axios.get(`/api/products/${item._id}`);
     if (data.countInStock < quantity) {
-      window.alert('Desculpe. Produto esgotado!');
+      window.alert("Desculpe. Produto esgotado!");
       return;
     }
 
     ctxDispatch({
-      type: 'CART_ADD_ITEM',
+      type: "CART_ADD_ITEM",
       payload: { ...item, quantity },
     });
   };
 
   const removeItemHandler = (item) => {
     ctxDispatch({
-      type: 'CART_REMOVE_ITEM',
+      type: "CART_REMOVE_ITEM",
       payload: item,
     });
   };
 
   const checkOutHandler = () => {
-    navigate('/signin?redirect=/shipping');
+    navigate("/signin?redirect=/shipping");
   };
   return (
     <div>
@@ -65,7 +65,7 @@ const CartScreen = () => {
                         src={item.image}
                         alt={item.name}
                         className="img-fluid rounded img-thumbnail"
-                      ></img>{' '}
+                      ></img>{" "}
                       <Link to={`/product/${item.slug}`}>{item.name}</Link>
                     </Col>
                     <Col md={3}>
@@ -79,7 +79,7 @@ const CartScreen = () => {
                         <i>
                           <IoIosRemoveCircleOutline />
                         </i>
-                      </Button>{' '}
+                      </Button>{" "}
                       <span>{item.quantity}</span>
                       <Button
                         variant="light"
@@ -114,7 +114,7 @@ const CartScreen = () => {
               <ListGroup variant="flush">
                 <ListGroup.Item>
                   <h3>
-                    Subtotal({cartItems.reduce((a, c) => a + c.quantity, 0)}{' '}
+                    Subtotal({cartItems.reduce((a, c) => a + c.quantity, 0)}{" "}
                     items):
                     {cartItems.reduce((a, c) => a + c.price * c.quantity, 0)}€
                   </h3>

@@ -1,12 +1,14 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer, useRef } from "react";
 import axios from "axios";
 import logger from "use-reducer-logger";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import Product from "../components/Product";
 import { Helmet } from "react-helmet-async";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
+import Brands from "../components/Brands";
+import { BsFillArrowLeftCircleFill } from "react-icons/bs";
+import { BsFillArrowRightCircleFill } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -28,6 +30,8 @@ const HomeScreen = () => {
     error: "",
   });
 
+  const carousel = useRef(null);
+
   // const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -45,27 +49,53 @@ const HomeScreen = () => {
     fetchData();
   }, []);
 
+  const handleLeftClick = (e) => {
+    e.preventDefault();
+    carousel.current.scrollLeft -= carousel.current.offsetWidth;
+  };
+  const handleRightClick = (e) => {
+    e.preventDefault();
+    carousel.current.scrollLeft += carousel.current.offsetWidth;
+  };
+
   return (
     <div>
       <Helmet>
         <title>RealTintas</title>
       </Helmet>
-      <h1 className="text-center">Produtos de Destaque</h1>
+      <div className="hero"></div>
+      <div className="promos"></div>
+      <h1 className="text-center my-5">Produtos de Destaque</h1>
+
       <div className="products">
+        <button className="btn-carousel" onClick={handleLeftClick}>
+          <BsFillArrowLeftCircleFill />
+        </button>
         {loading ? (
           <LoadingBox />
         ) : error ? (
           <MessageBox variant="danger">{error}</MessageBox>
         ) : (
-          <Row>
+          <div className="carousel" ref={carousel}>
             {products.map((product) => (
-              <Col key={product.slug} sm={6} md={4} lg={3} className="mb-3">
+              <div className="carousel-col" key={product.slug}>
                 <Product product={product} />
-              </Col>
+              </div>
             ))}
-          </Row>
+          </div>
         )}
+
+        <button className="btn-carousel" onClick={handleRightClick}>
+          <BsFillArrowRightCircleFill />{" "}
+        </button>
       </div>
+      <div className="notFind text-center">
+        {" "}
+        <h1>Não encontra o que procura ? </h1>
+        <p>A equipa da RealTintas ajuda-o.</p>
+        <Link to="#">Enviar Pedido </Link>
+      </div>
+      <Brands />
     </div>
   );
 };

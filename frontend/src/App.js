@@ -24,10 +24,20 @@ import Button from "react-bootstrap/Button";
 import axios from "axios";
 import getError from "./util";
 import { FaAlignJustify } from "react-icons/fa";
-import { BsSearch } from "react-icons/bs";
-import SearchBox from "./components/SearchBox";
-import SearchScreen from "./screens/SerachScreen";
+// import { BsSearch } from "react-icons/bs";
+// import SearchBox from "./components/SearchBox";
+import SearchScreen from "./screens/SearchScreen";
 import logo from "./realTintasLogo.png";
+import { IoBagHandleOutline } from "react-icons/io5";
+import { FiUser } from "react-icons/fi";
+import pagamentosImg from "../src/images/pagamentosImg.webp";
+import { FiInstagram } from "react-icons/fi";
+import { FaFacebookF } from "react-icons/fa";
+import { FaWhatsapp } from "react-icons/fa";
+import { FiMail } from "react-icons/fi";
+import reclamacoes from "../src/images/reclamacoes.webp";
+import HotLinks from "./components/HotLinks";
+import HeroSeguranca from "./components/HeroSeguranca";
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -67,6 +77,7 @@ function App() {
         <header>
           <Navbar bg="dark" variant="dark">
             <Container>
+              {" "}
               <Button
                 variant="dark"
                 onClick={() => setSidebarIsOpen(!sidebarIsOpen)}
@@ -75,7 +86,6 @@ function App() {
                   <FaAlignJustify />
                 </i>
               </Button>
-
               <LinkContainer to="/">
                 <Navbar.Brand>
                   <img
@@ -83,22 +93,53 @@ function App() {
                     width="130"
                     height="70"
                     className="d-inline-block align-top"
-                    alt="RealTntasn Logo"
+                    alt="RealTintas Logo"
                   />
                 </Navbar.Brand>
               </LinkContainer>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav" />
-              <SearchBox BsSearch={BsSearch} />
+              {/* <SearchBox BsSearch={BsSearch} /> */}
+              <Nav className="me-auto">
+                <NavDropdown
+                  title="Tintas e Acessórios"
+                  id="navbarScrollingDropdown"
+                >
+                  <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
+                  <NavDropdown.Item href="#action4">
+                    Another action
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item href="#action5">
+                    Something else here
+                  </NavDropdown.Item>
+                </NavDropdown>
+                <NavDropdown
+                  title="Máquinas e Ferramentas"
+                  id="navbarScrollingDropdown"
+                >
+                  <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
+                  <NavDropdown.Item href="#action4">
+                    Another action
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item href="#action5">
+                    Something else here
+                  </NavDropdown.Item>
+                </NavDropdown>
+                <NavDropdown title="Marcas" id="navbarScrollingDropdown">
+                  <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
+                  <NavDropdown.Item href="#action4">
+                    Another action
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item href="#action5">
+                    Something else here
+                  </NavDropdown.Item>
+                </NavDropdown>
+                <Nav.Link href="#action2">Contactos</Nav.Link>
+              </Nav>
               <Nav className="me-auto w-100 justify-content-end">
-                <Link to="/cart" className="nav-link">
-                  Cart
-                  {cart.cartItems.length > 0 && (
-                    <Badge pill bg="danger">
-                      {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
-                    </Badge>
-                  )}
-                </Link>
                 {userInfo ? (
                   <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
                     <LinkContainer to="/profile">
@@ -118,9 +159,18 @@ function App() {
                   </NavDropdown>
                 ) : (
                   <Link className="nav-link" to="/signin">
+                    <FiUser className="icon-size" />
                     Entrar
                   </Link>
                 )}
+                <Link to="/cart" className="nav-link">
+                  <IoBagHandleOutline className="icon-size" />
+                  {cart.cartItems.length > 0 && (
+                    <Badge pill bg="danger">
+                      {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
+                    </Badge>
+                  )}
+                </Link>
               </Nav>
             </Container>
           </Navbar>
@@ -149,7 +199,7 @@ function App() {
           </Nav>
         </div>
         <main>
-          <Container className="mt-3">
+          <Container fluid className="m-0-i">
             <Routes>
               <Route path="/" element={<HomeScreen />} />
               <Route path="/product/:slug" element={<ProductScreen />} />
@@ -165,9 +215,63 @@ function App() {
               <Route path="/search" element={<SearchScreen />} />
             </Routes>
           </Container>
+          <HeroSeguranca />
+          <HotLinks />
         </main>
         <footer>
-          <div className="text-center ">All rights reserved</div>
+          <div className="footer-produtos">
+            <h1>
+              <strong>Produtos</strong>
+            </h1>
+            <Link to="#">Tintas para Exterior</Link>
+            <Link to="#">Marcas</Link>
+            <Link to="#">Máquinas</Link>
+          </div>
+          <div className="footer-links">
+            <h1>
+              <strong>Links Úteis</strong>
+            </h1>
+            <Link to="#">Sobre Nós</Link>
+            <Link to="#">Blog</Link>
+            <Link to="#">Politica de Privacidade</Link>
+            <Link to="#">Termos e Condições</Link>
+            <Link to="#">Contactos</Link>
+          </div>
+          <div className="footer-pagamentos">
+            <h1>
+              <strong>Pagamentos e Segurança</strong>
+            </h1>
+            <img src={pagamentosImg} alt="pagamentos"></img>
+            <h1 className="siga-nos">
+              {" "}
+              <strong>Siga-nos</strong>
+            </h1>
+            <div className="socialmedia">
+              {" "}
+              <a href="google.pt">
+                <FiInstagram />
+              </a>
+              <a href="google.pt">
+                <FaFacebookF />
+              </a>
+              <a href="google.pt">
+                <FaWhatsapp />
+              </a>
+              <a href="google.pt">
+                <FiMail />
+              </a>
+            </div>
+          </div>
+          <div className="reclamacoes">
+            <h1></h1>
+            <img src={reclamacoes} alt="reclamações"></img>
+            <span>
+              <p>
+                © 2022 RealTintas <br />
+                Desenvolvido por Nuno Alves
+              </p>
+            </span>
+          </div>
         </footer>
       </div>
     </BrowserRouter>
